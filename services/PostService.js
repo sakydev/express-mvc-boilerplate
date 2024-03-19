@@ -2,15 +2,25 @@ const postRepository = require('../repositories/PostRepository')
 const Post = require('../models/Post')
 
 class PostService {
-    create = (content, callback) => {
-        const {title, description, author} = content.body
-        const postContent = new Post(title,description, author, Date.now())
-
-        postRepository.store(postContent, callback)
+    async create(content) {
+        const { title, description, author } = content;
+        const postContent = { title, description, author };
+        try {
+            const newPost = await postRepository.store(postContent);
+            return newPost.id;
+        } catch (error) {
+            console.error('Error creating post:', error);
+            throw error;
+        }
     }
 
-    show = (postId, callback) => {
-        postRepository.show(postId, callback)
+    async show(postId) {
+        try {
+            return await postRepository.show(postId);
+        } catch (error) {
+            console.error('Error fetching post:', error);
+            throw error;
+        }
     }
 }
 
