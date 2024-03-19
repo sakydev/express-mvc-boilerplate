@@ -10,22 +10,15 @@ const show = async (postId) => {
 }
 
 const store = async (content) => {
-    try {
-        const { title, description, author, created_at } = content;
-        return await prisma.posts.create({
-            data: {
-                title,
-                description,
-                author,
-                created_at
-            }
-        });
-
-    } catch (error) {
-        console.error('Error creating post:', error);
-
-        throw error; // Rethrow the error to propagate it to the caller
-    }
+    const { title, description, author, created_at } = content;
+    return await prisma.posts.create({
+        data: {
+            title,
+            description,
+            author,
+            created_at
+        }
+    });
 }
 
 
