@@ -7,27 +7,26 @@ const show = async (request, response) => {
         if (!post) {
             response.status(404).send();
         } else {
-            console.log('sending response');
             response.send({
                 "content": post
             });
         }
     } catch (error) {
         console.error('Error fetching post:', error);
+
         response.status(500).send({ error: 'Internal Server Error' });
     }
 }
 
 const store = async (request, response) => {
     try {
-        const postId = await postService.create(request.body);
+        const createdPost = await postService.create(request.body);
         response.status(201).send({
-            "content": {
-                "id": postId
-            }
+            "content": createdPost
         });
     } catch (error) {
         console.error('Error creating post:', error);
+
         response.status(500).send({ error: 'Internal Server Error' });
     }
 }

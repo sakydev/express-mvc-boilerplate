@@ -3,13 +3,11 @@ const Post = require('../models/Post')
 
 class PostService {
     async create(content) {
-        const { title, description, author } = content;
-        const postContent = { title, description, author };
         try {
-            const newPost = await postRepository.store(postContent);
-            return newPost.id;
+            return await postRepository.store(content);
         } catch (error) {
             console.error('Error creating post:', error);
+
             throw error;
         }
     }
@@ -19,6 +17,7 @@ class PostService {
             return await postRepository.show(postId);
         } catch (error) {
             console.error('Error fetching post:', error);
+
             throw error;
         }
     }
