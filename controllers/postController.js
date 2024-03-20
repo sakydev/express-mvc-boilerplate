@@ -12,7 +12,7 @@ const list = async (request, response) => {
 
     response.send({
         "page": page,
-        "limt": limit,
+        "limit": limit,
         "content": posts
     })
 }
@@ -50,7 +50,15 @@ const store = async (request, response) => {
 
 const update = async (request, response) => {}
 
-const destroy = async (request, response) => {}
+const destroy = async (request, response) => {
+    try {
+
+    } catch (error) {
+        console.log('Error destroying post:', error)
+
+        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' });
+    }
+}
 
 module.exports = {
     list,
