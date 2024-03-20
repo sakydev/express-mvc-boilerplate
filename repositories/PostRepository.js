@@ -1,6 +1,15 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const list = async (page, limit) => {
+    const skip = (page - 1) * limit;
+
+    return await prisma.posts.findMany({
+        take: limit,
+        skip: skip,
+    });
+}
+
 const show = async (postId) => {
     return await prisma.posts.findFirst({
         where: {
@@ -21,9 +30,16 @@ const store = async (content) => {
     });
 }
 
+const update = async (postId, content) => {}
+
+const destroy = async (postId) => {}
+
 
 module.exports = {
+    list,
     show,
-    store
+    store,
+    update,
+    destroy
 }
 

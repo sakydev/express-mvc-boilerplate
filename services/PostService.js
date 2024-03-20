@@ -2,6 +2,16 @@ const postRepository = require('../repositories/PostRepository')
 const Post = require('../models/Post')
 
 class PostService {
+    async list(page, limit) {
+        try {
+            return await postRepository.list(parseInt(page), parseInt(limit))
+        } catch (error) {
+            console.log('Error listing posts:', error)
+
+            throw error
+        }
+    }
+
     async create(content) {
         try {
             return await postRepository.store(content);
