@@ -18,20 +18,22 @@ const list = async (request, response) => {
 }
 
 const show = async (request, response) => {
-    const postId = parseInt(request.params.postId);
     try {
-        const post = await postService.show(postId);
+        const postId = parseInt(request.params.postId)
+        const post = await postService.findById(postId)
         if (!post) {
-            response.status(statusCode.NOT_FOUND).send();
-        } else {
-            response.send({
-                "content": post
-            });
+            response.status(statusCode.NOT_FOUND).send({
+                error: 'not found'
+            })
         }
-    } catch (error) {
-        console.error('Error fetching post:', error);
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' });
+        response.send({
+            "content": post
+        })
+    } catch (error) {
+        console.error('Error fetching post:', error)
+
+        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
     }
 }
 
@@ -42,9 +44,9 @@ const store = async (request, response) => {
             "content": createdPost
         });
     } catch (error) {
-        console.error('Error creating post:', error);
+        console.error('Error creating post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' });
+        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
     }
 }
 
@@ -52,11 +54,21 @@ const update = async (request, response) => {}
 
 const destroy = async (request, response) => {
     try {
+        const postId = parseInt(request.params.postId)
+        const post = await postService.findById(postId)
+        if (!post) {
+            return response.status(statusCode.NOT_FOUND).send({
+                error: 'not found'
+            })
+        }
 
+        await postService.destroy(postId)
+
+        response.status(statusCode.NO_CONTENT).send()
     } catch (error) {
         console.log('Error destroying post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' });
+        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
     }
 }
 

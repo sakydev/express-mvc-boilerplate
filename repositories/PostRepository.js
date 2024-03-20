@@ -10,7 +10,7 @@ const list = async (page, limit) => {
     });
 }
 
-const show = async (postId) => {
+const findById = async (postId) => {
     return await prisma.posts.findFirst({
         where: {
             id: postId
@@ -32,12 +32,18 @@ const store = async (content) => {
 
 const update = async (postId, content) => {}
 
-const destroy = async (postId) => {}
+const destroy = async (postId) => {
+    return await prisma.posts.delete({
+        where: {
+            id: postId
+        }
+    })
+}
 
 
 module.exports = {
     list,
-    show,
+    findById,
     store,
     update,
     destroy
