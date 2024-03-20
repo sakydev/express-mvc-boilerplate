@@ -30,7 +30,14 @@ const store = async (content) => {
     });
 }
 
-const update = async (postId, content) => {}
+const update = async (postId, content) => {
+    return await prisma.posts.update({
+        where: {
+            id: postId
+        },
+        data: content
+    })
+}
 
 const destroy = async (postId) => {
     return await prisma.posts.delete({

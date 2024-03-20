@@ -10,6 +10,10 @@ class PostService {
         return await postRepository.store(content);
     }
 
+    async update(postId, content) {
+        return await postRepository.update(postId, content)
+    }
+
     async findById(postId) {
         return await postRepository.findById(postId);
     }

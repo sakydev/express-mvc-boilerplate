@@ -11,9 +11,9 @@ const list = async (request, response) => {
     const posts = await postService.list(parseInt(page), parseInt(limit))
 
     response.send({
-        "page": page,
-        "limit": limit,
-        "content": posts
+        page: page,
+        limit: limit,
+        content: posts
     })
 }
 
@@ -28,7 +28,7 @@ const show = async (request, response) => {
         }
 
         response.send({
-            "content": post
+            content: post
         })
     } catch (error) {
         console.error('Error fetching post:', error)
@@ -41,7 +41,7 @@ const store = async (request, response) => {
     try {
         const createdPost = await postService.create(request.body);
         response.status(statusCode.CREATED).send({
-            "content": createdPost
+            content: createdPost
         });
     } catch (error) {
         console.error('Error creating post:', error)
@@ -50,7 +50,27 @@ const store = async (request, response) => {
     }
 }
 
-const update = async (request, response) => {}
+const update = async (request, response) => {
+    try {
+        const postId = parseInt(request.params.postId)
+        const post = await postService.findById(postId)
+        if (!post) {
+            return response.status(statusCode.NOT_FOUND).send({
+                error: 'not found'
+            })
+        }
+
+        const updatedPost = await postService.update(postId, request.body)
+
+        response.status(statusCode.OK).send({
+            content: updatedPost
+        })
+    } catch (error) {
+        console.error('Error updating post:', error)
+
+        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
+    }
+}
 
 const destroy = async (request, response) => {
     try {
