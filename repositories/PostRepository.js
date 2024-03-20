@@ -12,9 +12,7 @@ const list = async (page, limit) => {
 
 const findById = async (postId) => {
     return await prisma.posts.findFirst({
-        where: {
-            id: postId
-        }
+        where: { id: postId }
     });
 }
 
@@ -32,18 +30,14 @@ const store = async (content) => {
 
 const update = async (postId, content) => {
     return await prisma.posts.update({
-        where: {
-            id: postId
-        },
+        where: { id: postId },
         data: content
     })
 }
 
 const destroy = async (postId) => {
     return await prisma.posts.delete({
-        where: {
-            id: postId
-        }
+        where: { id: postId }
     })
 }
 
