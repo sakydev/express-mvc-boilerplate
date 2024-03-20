@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const logRequestMiddleware = require('./middlewares/logRequestMiddleware')
 const app = express();
 
 app.use(bodyParser.json());
+app.use(logRequestMiddleware)
 
 app.get('/', (request, response) => {
     response.send({
