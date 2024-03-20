@@ -4,7 +4,7 @@ const Post = require('../models/Post')
 class PostService {
     async list(page, limit) {
         try {
-            return await postRepository.list(parseInt(page), parseInt(limit))
+            return await postRepository.list(page, limit)
         } catch (error) {
             console.log('Error listing posts:', error)
 

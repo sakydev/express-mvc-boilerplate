@@ -8,8 +8,7 @@ const list = async (request, response) => {
     const page = request.query.page || DEFAULT_PAGE
     const limit = request.query.limit || DEFAULT_LIMIT
 
-    console.log(limit)
-    const posts = await postService.list(page, limit)
+    const posts = await postService.list(parseInt(page), parseInt(limit))
 
     response.send({
         "page": page,
