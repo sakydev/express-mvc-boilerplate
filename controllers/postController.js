@@ -1,5 +1,5 @@
-const postService = require('../services/PostService')
 const statusCode = require('http-status-codes');
+const postService = require('../services/PostService')
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 5
