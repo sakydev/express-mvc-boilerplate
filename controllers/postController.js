@@ -1,5 +1,6 @@
 const statusCode = require('http-status-codes');
 const postService = require('../services/PostService')
+const { notFoundErrorResponse, internalServerErrorResponse } = require('../responses/errorResponses')
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 5
@@ -22,9 +23,7 @@ const show = async (request, response) => {
         const postId = parseInt(request.params.postId)
         const post = await postService.findById(postId)
         if (!post) {
-            response.status(statusCode.NOT_FOUND).send({
-                error: 'not found'
-            })
+            return notFoundErrorResponse(response)
         }
 
         response.send({
@@ -33,7 +32,7 @@ const show = async (request, response) => {
     } catch (error) {
         console.error('Error fetching post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
+        return internalServerErrorResponse(response)
     }
 }
 
@@ -46,7 +45,7 @@ const store = async (request, response) => {
     } catch (error) {
         console.error('Error creating post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
+        return internalServerErrorResponse(response)
     }
 }
 
@@ -55,9 +54,7 @@ const update = async (request, response) => {
         const postId = parseInt(request.params.postId)
         const post = await postService.findById(postId)
         if (!post) {
-            return response.status(statusCode.NOT_FOUND).send({
-                error: 'not found'
-            })
+            return notFoundErrorResponse(response)
         }
 
         const updatedPost = await postService.update(postId, request.body)
@@ -68,7 +65,7 @@ const update = async (request, response) => {
     } catch (error) {
         console.error('Error updating post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
+        return internalServerErrorResponse(response)
     }
 }
 
@@ -77,9 +74,7 @@ const destroy = async (request, response) => {
         const postId = parseInt(request.params.postId)
         const post = await postService.findById(postId)
         if (!post) {
-            return response.status(statusCode.NOT_FOUND).send({
-                error: 'not found'
-            })
+            return notFoundErrorResponse(response)
         }
 
         await postService.destroy(postId)
@@ -88,7 +83,7 @@ const destroy = async (request, response) => {
     } catch (error) {
         console.log('Error destroying post:', error)
 
-        response.status(statusCode.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' })
+        return internalServerErrorResponse(response)
     }
 }
 
